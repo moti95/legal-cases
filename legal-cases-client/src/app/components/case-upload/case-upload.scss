@@ -1,30 +1,30 @@
-// Import shared mixins and components
-@import '../../shared/mixins';
-@import '../../shared/components';
+// Use shared mixins and components
+@use '../../shared/mixins' as m;
+@use '../../shared/components';
 
 :host {
-  @include rtl-base;
+  @include m.rtl-base;
 }
 
 .upload-page {
-  @include page-container;
+  @include m.page-container;
 }
 
 // Hero Section
 .hero-section {
-  @include hero-section;
+  @include m.hero-section;
 }
 
 .hero-container {
-  @include hero-container;
+  @include m.hero-container;
 }
 
 .hero-title {
-  @include hero-title;
+  @include m.hero-title;
 }
 
 .hero-subtitle {
-  @include hero-subtitle;
+  @include m.hero-subtitle;
   margin-bottom: 0;
 }
 
@@ -36,12 +36,12 @@
 }
 
 .container {
-  @include content-container(1000px);
+  @include m.content-container(1000px);
 }
 
 // Stepper Card
 .stepper-card {
-  @include card-section;
+  @include m.card-section;
 }
 
 // Material Stepper Customization
@@ -173,7 +173,7 @@
   }
 
   button {
-    @include circle-button;
+    @include m.circle-button;
     color: var(--text-secondary) !important;
 
     &:hover {
@@ -191,7 +191,7 @@
 }
 
 .section-title {
-  @include section-title;
+  @include m.section-title;
 }
 
 // Dynamic List (Judges/Parties)
@@ -268,7 +268,7 @@
   flex-shrink: 0;
   align-self: flex-start;
   color: var(--google-red) !important;
-  @include circle-button;
+  @include m.circle-button;
 
   &:hover {
     background: #fce8e6 !important;
@@ -289,7 +289,7 @@
   margin-top: 24px;
 
   button {
-    @include pill-button;
+    @include m.pill-button;
   }
 
   .next-button {
@@ -321,7 +321,7 @@
     gap: 6px;
 
     .review-label {
-      @include field-label;
+      @include m.field-label;
     }
 
     .review-value {
@@ -352,7 +352,7 @@
 }
 
 // Responsive
-@include mobile {
+@include m.mobile {
   .hero-title {
     h1 {
       font-size: 24px;

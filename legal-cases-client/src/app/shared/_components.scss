@@ -3,33 +3,33 @@
 // Uses global styles from styles.scss and mixins
 // ============================================
 
-// Import mixins only
-@import 'mixins';
+// Use mixins with namespace
+@use 'mixins' as m;
 
 // ============================================
 // Common Alert Components
 // ============================================
 .alert {
-  @include alert-base;
+  @include m.alert-base;
 }
 
 .alert-success {
-  @include alert-success;
+  @include m.alert-success;
 }
 
 .alert-error {
-  @include alert-error;
+  @include m.alert-error;
 }
 
 .alert-warning {
-  @include alert-warning;
+  @include m.alert-warning;
 }
 
 // ============================================
 // Common Loading States
 // ============================================
 .loading-state {
-  @include loading-container;
+  @include m.loading-container;
 }
 
 // .loading-overlay is already defined in styles.scss
@@ -38,7 +38,7 @@
 // Skeleton Loading
 // ============================================
 .skeleton-base {
-  @include skeleton-animation;
+  @include m.skeleton-animation;
   border-radius: 4px;
 }
 
@@ -72,7 +72,7 @@
 }
 
 .skeleton-card {
-  @include card-section;
+  @include m.card-section;
 
   .skeleton-content {
     display: flex;
@@ -95,11 +95,11 @@
 }
 
 .field-label {
-  @include field-label;
+  @include m.field-label;
 }
 
 .custom-input {
-  @include custom-input;
+  @include m.custom-input;
 }
 
 select.custom-input {
@@ -107,28 +107,28 @@ select.custom-input {
 }
 
 .form-grid {
-  @include form-grid;
+  @include m.form-grid;
 }
 
 .form-row {
-  @include form-grid(2);
   margin-bottom: 20px;
+  @include m.form-grid(2);
 }
 
 // ============================================
 // Common Card Styles
 // ============================================
 .info-card {
-  @include card-section;
+  @include m.card-section;
 }
 
 .content-card {
-  @include card-base;
+  @include m.card-base;
   padding: 32px;
 }
 
 .form-section {
-  @include card-section;
+  @include m.card-section;
   transition: box-shadow var(--transition-base);
 
   &:hover {
@@ -140,14 +140,18 @@ select.custom-input {
 // Common Button Groups
 // ============================================
 .form-actions {
-  @extend .surface; // Use surface class from styles.scss
+  // Apply surface styles directly instead of @extend
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1);
+  border: 1px solid var(--divider);
   display: flex;
   gap: 16px;
   justify-content: center;
   padding: 32px;
 
   button {
-    @include primary-action-button;
+    @include m.primary-action-button;
 
     mat-icon {
       font-size: 20px;
@@ -156,7 +160,7 @@ select.custom-input {
     }
   }
 
-  @include mobile {
+  @include m.mobile {
     flex-direction: column;
 
     button {
@@ -171,10 +175,10 @@ select.custom-input {
   margin-bottom: 24px;
 
   button {
-    @include pill-button;
+    @include m.pill-button;
   }
 
-  @include mobile {
+  @include m.mobile {
     flex-direction: column;
 
     button {
@@ -198,7 +202,7 @@ select.custom-input {
   gap: 6px;
 
   .info-label {
-    @include field-label;
+    @include m.field-label;
   }
 
   .info-value {
@@ -220,7 +224,7 @@ select.custom-input {
     background: var(--bg-hover) !important;
     color: var(--text-primary) !important;
     font-weight: 500;
-    @include pill-button;
+    @include m.pill-button;
 
     &.primary {
       background: var(--google-blue) !important;
@@ -238,10 +242,10 @@ select.custom-input {
 // Common Empty States
 // ============================================
 .empty-state {
-  @include empty-state;
+  @include m.empty-state;
 
   button {
-    @include pill-button;
+    @include m.pill-button;
     font-size: 15px !important;
     padding: 0 32px !important;
     height: 44px !important;
@@ -282,14 +286,14 @@ select.custom-input {
   border-bottom: 1px solid var(--divider);
 
   .section-title {
-    @include section-title;
+    @include m.section-title;
     margin: 0;
     padding: 0;
     border: none;
   }
 
   button {
-    @include pill-button;
+    @include m.pill-button;
   }
 }
 
@@ -297,7 +301,7 @@ select.custom-input {
 // Common Result Cards
 // ============================================
 .result-card {
-  @include card-base;
+  @include m.card-base;
   padding: 20px 24px;
   display: flex;
   gap: 20px;

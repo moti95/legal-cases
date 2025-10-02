@@ -1,26 +1,26 @@
-// Import shared mixins and components
-@import '../../shared/mixins';
-@import '../../shared/components';
+// Use shared mixins and components
+@use '../../shared/mixins' as m;
+@use '../../shared/components';
 
 :host {
-  @include rtl-base;
+  @include m.rtl-base;
 }
 
 .details-page {
-  @include page-container;
+  @include m.page-container;
 }
 
 // Hero Section
 .hero-section {
-  @include hero-section;
+  @include m.hero-section;
 }
 
 .hero-container {
-  @include hero-container;
+  @include m.hero-container;
 }
 
 .hero-title {
-  @include hero-title;
+  @include m.hero-title;
 }
 
 .hero-subtitle {
@@ -38,7 +38,7 @@
 }
 
 .container {
-  @include content-container(1100px);
+  @include m.content-container(1100px);
 }
 
 // Skeleton Loading
@@ -57,14 +57,14 @@
 .skeleton-action-button {
   height: 40px;
   width: 150px;
-  @include skeleton-animation;
-  @include pill-button;
+  @include m.skeleton-animation;
+  @include m.pill-button;
 }
 
 .skeleton-card-title {
   height: 24px;
   width: 150px;
-  @include skeleton-animation;
+  @include m.skeleton-animation;
   border-radius: 4px;
   margin-bottom: 24px;
 }
@@ -77,13 +77,13 @@
 
 .skeleton-info-item {
   height: 20px;
-  @include skeleton-animation;
+  @include m.skeleton-animation;
   border-radius: 4px;
 }
 
 .skeleton-text {
   height: 300px;
-  @include skeleton-animation;
+  @include m.skeleton-animation;
   border-radius: 8px;
 }
 
@@ -189,7 +189,7 @@
     color: white;
     font-weight: 500;
     font-size: 12px;
-    @include pill-button;
+    @include m.pill-button;
   }
 
   span {
@@ -200,7 +200,7 @@
 
 // Case Text
 .text-card {
-  @include card-section;
+  @include m.card-section;
 
   .case-text {
     background: var(--bg-secondary);
@@ -228,7 +228,7 @@
 }
 
 // Responsive
-@include mobile {
+@include m.mobile {
   .hero-title {
     h1 {
       font-size: 24px;

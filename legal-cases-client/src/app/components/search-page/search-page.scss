@@ -1,29 +1,29 @@
-// Import shared mixins and components
-@import '../../shared/mixins';
-@import '../../shared/components';
+// Use shared mixins and components
+@use '../../shared/mixins' as m;
+@use '../../shared/components';
 
 :host {
-  @include rtl-base;
+  @include m.rtl-base;
 }
 
 .search-page {
-  @include page-container;
+  @include m.page-container;
 }
 
 // Hero Section with gradient
 .hero-section {
-  @include hero-section;
   background: linear-gradient(135deg,
     var(--bg-secondary) 0%,
     var(--google-blue-lighter) 100%);
+  @include m.hero-section;
 }
 
 .hero-container {
-  @include hero-container;
+  @include m.hero-container;
 }
 
 .hero-title {
-  @include hero-title;
+  @include m.hero-title;
 
   h1 {
     font-size: 48px;
@@ -35,7 +35,7 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
 
-    @include mobile {
+    @include m.mobile {
       font-size: 24px;
     }
   }
@@ -46,7 +46,7 @@
 }
 
 .hero-subtitle {
-  @include hero-subtitle;
+  @include m.hero-subtitle;
   margin-bottom: 32px;
 }
 
@@ -61,7 +61,7 @@
   gap: 12px;
   margin-bottom: 20px;
 
-  @include mobile {
+  @include m.mobile {
     flex-direction: column;
   }
 }
@@ -108,7 +108,7 @@
   min-width: 56px;
   height: 56px;
   border: none;
-  @include circle-button;
+  @include m.circle-button;
   background: var(--google-blue);
   color: white;
   cursor: pointer;
@@ -142,7 +142,7 @@
     height: 26px;
   }
 
-  @include mobile {
+  @include m.mobile {
     width: 100%;
     border-radius: var(--radius-pill);
   }
@@ -163,7 +163,7 @@
   }
 
   .filter-button {
-    @include pill-button;
+    @include m.pill-button;
     background: transparent !important;
     color: var(--text-secondary) !important;
     border: 1px solid var(--border-color) !important;
@@ -189,7 +189,7 @@
   font-weight: 500;
   background: var(--google-blue);
   color: white;
-  @include circle-button;
+  @include m.circle-button;
   min-width: 20px;
   height: 20px;
   display: inline-flex;
@@ -207,7 +207,7 @@
 }
 
 .filters-card {
-  @include card-base;
+  @include m.card-base;
   padding: 24px;
   max-width: 1200px;
   margin: 0 auto;
@@ -247,7 +247,7 @@
 }
 
 .filter-label {
-  @include field-label;
+  @include m.field-label;
 }
 
 .filters-actions {
@@ -271,7 +271,7 @@
 }
 
 .filters-label {
-  @include field-label;
+  @include m.field-label;
 }
 
 mat-chip {
@@ -281,7 +281,7 @@ mat-chip {
   color: var(--google-blue-vibrant);
   font-weight: 600;
   font-size: 13px;
-  @include pill-button;
+  @include m.pill-button;
   border: 1px solid var(--google-blue-light);
 
   button[matChipRemove] {
@@ -291,7 +291,7 @@ mat-chip {
     &:hover {
       opacity: 1;
       background: var(--google-blue-light);
-      @include circle-button;
+      @include m.circle-button;
     }
 
     mat-icon {
@@ -310,7 +310,7 @@ mat-chip {
 }
 
 .container {
-  @include content-container;
+  @include m.content-container;
 }
 
 // Results
@@ -353,7 +353,7 @@ mat-chip {
     border-radius: var(--radius-asymmetric);
   }
 
-  @include mobile {
+  @include m.mobile {
     flex-direction: column;
     padding: 16px;
   }
@@ -365,7 +365,7 @@ mat-chip {
   gap: 8px;
   margin-bottom: 12px;
 
-  @include mobile {
+  @include m.mobile {
     flex-direction: column;
   }
 }
@@ -376,7 +376,7 @@ mat-chip {
   gap: 6px;
   background: var(--bg-secondary);
   padding: 4px 12px;
-  @include pill-button;
+  @include m.pill-button;
   font-size: 12px;
   color: var(--text-secondary);
   font-weight: 400;
@@ -418,11 +418,11 @@ mat-chip {
 
   button {
     font-size: 14px;
-    @include pill-button;
+    @include m.pill-button;
     padding: 0 20px !important;
   }
 
-  @include mobile {
+  @include m.mobile {
     flex-direction: column;
 
     button {
@@ -439,7 +439,7 @@ mat-chip {
 }
 
 .skeleton-card {
-  @include card-base;
+  @include m.card-base;
   padding: 20px 24px;
   display: flex;
   gap: 20px;
@@ -448,8 +448,8 @@ mat-chip {
 .skeleton-badge {
   width: 40px;
   height: 40px;
-  @include circle-button;
-  @include skeleton-animation;
+  @include m.circle-button;
+  @include m.skeleton-animation;
   flex-shrink: 0;
 }
 
@@ -466,13 +466,13 @@ mat-chip {
 .skeleton-info-item {
   height: 24px;
   width: 100px;
-  @include skeleton-animation;
-  @include pill-button;
+  @include m.skeleton-animation;
+  @include m.pill-button;
 }
 
 .skeleton-excerpt {
   height: 60px;
-  @include skeleton-animation;
+  @include m.skeleton-animation;
   border-radius: var(--radius-md);
   margin-bottom: 16px;
 }
@@ -484,7 +484,7 @@ mat-chip {
 
 // Tips Box
 .tips-box {
-  @include card-base;
+  @include m.card-base;
   padding: 24px;
   max-width: 500px;
   margin: 30px auto 0;

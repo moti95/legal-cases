@@ -1,9 +1,9 @@
 // Include theming for Angular Material
 @use '@angular/material' as mat;
 
-// Import shared styles
-@import 'app/shared/mixins';
-@import 'app/shared/components';
+// Use shared styles with @forward to make them available
+@forward 'app/shared/mixins';
+@forward 'app/shared/components';
 
 // ============================================
 // Google Material Design 3 Theme
