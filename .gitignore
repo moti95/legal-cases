@@ -1,10 +1,17 @@
-
 # macOS
 .DS_Store
+**/.DS_Store
 
 # Node modules
 node_modules/
 */node_modules/
+
+# Angular
+.angular/
+dist/
+tmp/
+out-tsc/
+bazel-out/
 
 # Environment files
 .env
@@ -14,15 +21,40 @@ node_modules/
 # IDE
 .vscode/
 .idea/
+*.sublime-*
+.project
+.classpath
+.c9/
 
 # Logs
 *.log
 npm-debug.log*
 yarn-debug.log*
+yarn-error.log*
 
 # Build directories
 dist/
 build/
 
-#Ignore vscode AI rules
+# Documentation
+*.pdf
+
+# Testing (uncomment to keep test files)
+# *.spec.ts
+# tsconfig.spec.json
+
+# Coverage
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+
+# System files
+Thumbs.db
+
+# Misc
+.sass-cache/
+/connect.lock
+
+# Ignore vscode AI rules
 .github/instructions/codacy.instructions.md
