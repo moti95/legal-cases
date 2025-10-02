@@ -1,0 +1,345 @@
+// ============================================
+// Shared SCSS Mixins for Legal Cases App
+// ============================================
+
+// RTL Support
+@mixin rtl-base {
+  direction: rtl;
+  text-align: right;
+  display: block;
+}
+
+// Page Container
+@mixin page-container {
+  min-height: calc(100vh - 64px);
+  background: var(--bg-primary);
+}
+
+// Content Container
+@mixin content-container($max-width: 1200px) {
+  max-width: $max-width;
+  margin: 0 auto;
+}
+
+// ============================================
+// Hero Section
+// ============================================
+@mixin hero-section {
+  background: var(--bg-secondary);
+  padding: 48px 24px;
+  text-align: center;
+  border-bottom: 1px solid var(--divider);
+
+  @media (max-width: 768px) {
+    padding: 32px 16px;
+  }
+}
+
+@mixin hero-container($max-width: 900px) {
+  max-width: $max-width;
+  margin: 0 auto;
+}
+
+@mixin hero-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 12px;
+
+  mat-icon {
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+    color: var(--google-blue);
+  }
+
+  h1 {
+    font-size: 32px;
+    font-weight: 400;
+    margin: 0;
+    color: var(--text-primary);
+    font-family: 'Google Sans', 'Roboto', sans-serif;
+
+    @media (max-width: 768px) {
+      font-size: 24px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+@mixin hero-subtitle {
+  font-size: 14px;
+  margin: 0;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+// ============================================
+// Cards & Sections
+// ============================================
+@mixin card-base {
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1);
+  border: 1px solid var(--divider);
+  transition: box-shadow var(--transition-base);
+
+  &:hover {
+    box-shadow: var(--shadow-2);
+  }
+}
+
+@mixin card-section {
+  @include card-base;
+  padding: 24px;
+}
+
+@mixin section-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin: 0 0 24px 0;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--divider);
+
+  mat-icon {
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+    color: var(--google-blue);
+  }
+}
+
+// ============================================
+// Form Elements
+// ============================================
+@mixin field-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-align: right;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+@mixin custom-input {
+  width: 100%;
+  height: 44px;
+  padding: 10px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  text-align: right;
+  direction: rtl;
+  background: white;
+  color: var(--text-primary);
+  transition: all var(--transition-fast);
+  box-sizing: border-box;
+
+  &::placeholder {
+    color: var(--text-tertiary);
+  }
+
+  &:hover {
+    border-color: var(--border-hover);
+    background-color: var(--bg-hover);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--google-blue);
+    background-color: var(--bg-primary);
+    box-shadow: 0 0 0 4px var(--google-blue-lighter);
+  }
+}
+
+@mixin form-grid($columns: 2) {
+  display: grid;
+  grid-template-columns: repeat($columns, 1fr);
+  gap: 20px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ============================================
+// Alerts
+// ============================================
+@mixin alert-base {
+  padding: 16px 20px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 24px;
+
+  mat-icon {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+
+  strong {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+
+  p {
+    margin: 0;
+    font-size: 14px;
+  }
+}
+
+@mixin alert-success {
+  @include alert-base;
+  background: #e6f4ea;
+  color: #137333;
+  border: 1px solid var(--google-green);
+
+  mat-icon {
+    color: var(--google-green);
+  }
+}
+
+@mixin alert-error {
+  @include alert-base;
+  background: #fce8e6;
+  color: #c5221f;
+  border: 1px solid var(--google-red);
+
+  mat-icon {
+    color: var(--google-red);
+  }
+}
+
+@mixin alert-warning {
+  @include alert-base;
+  background: #fef7e0;
+  border: 1px solid var(--google-yellow);
+
+  mat-icon {
+    color: var(--google-yellow);
+  }
+}
+
+// ============================================
+// Loading & Skeleton
+// ============================================
+@mixin skeleton-animation {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+@mixin loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  gap: 24px;
+
+  mat-spinner {
+    margin: 0 auto 20px;
+  }
+
+  p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+// ============================================
+// Buttons
+// ============================================
+@mixin pill-button {
+  border-radius: var(--radius-pill) !important;
+}
+
+@mixin circle-button {
+  border-radius: var(--radius-circle) !important;
+}
+
+@mixin primary-action-button {
+  @include pill-button;
+  min-width: 180px;
+  height: 48px !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+}
+
+// ============================================
+// Empty States
+// ============================================
+@mixin empty-state {
+  text-align: center;
+  padding: 80px 20px;
+
+  mat-icon {
+    font-size: 96px;
+    width: 96px;
+    height: 96px;
+    color: var(--google-blue-light);
+    margin-bottom: 32px;
+    opacity: 0.6;
+  }
+
+  h3 {
+    font-size: 24px;
+    color: var(--text-primary);
+    margin: 0 0 12px 0;
+    font-weight: 400;
+  }
+
+  p {
+    font-size: 16px;
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+    line-height: 1.6;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+// ============================================
+// Responsive Utilities
+// ============================================
+@mixin mobile {
+  @media (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: 769px) and (max-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: 1025px) {
+    @content;
+  }
+}

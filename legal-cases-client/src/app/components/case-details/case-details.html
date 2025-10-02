@@ -1,0 +1,152 @@
+<div class="details-page">
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-container">
+      <div class="hero-title">
+        <mat-icon>gavel</mat-icon>
+        <h1>פרטי פסק דין</h1>
+      </div>
+      <p class="hero-subtitle" *ngIf="legalCase">{{ legalCase.case_title }}</p>
+    </div>
+  </div>
+
+  <!-- Content Section -->
+  <div class="content-section">
+    <div class="container">
+      <!-- Skeleton Loading -->
+      <div class="skeleton-case" *ngIf="loading">
+        <div class="skeleton-action-bar">
+          <div class="skeleton-action-button"></div>
+          <div class="skeleton-action-button"></div>
+        </div>
+
+        <div class="skeleton-card">
+          <div class="skeleton-card-title"></div>
+          <div class="skeleton-info-grid">
+            <div class="skeleton-info-item"></div>
+            <div class="skeleton-info-item"></div>
+            <div class="skeleton-info-item"></div>
+            <div class="skeleton-info-item"></div>
+            <div class="skeleton-info-item"></div>
+          </div>
+        </div>
+
+        <div class="skeleton-card">
+          <div class="skeleton-card-title"></div>
+          <div class="skeleton-info-item"></div>
+          <div class="skeleton-info-item"></div>
+        </div>
+
+        <div class="skeleton-card">
+          <div class="skeleton-card-title"></div>
+          <div class="skeleton-text"></div>
+        </div>
+      </div>
+
+      <!-- Error Alert -->
+      <div class="alert alert-error" *ngIf="error && !loading">
+        <mat-icon>error_outline</mat-icon>
+        <div>
+          <strong>שגיאה</strong>
+          <p>{{ error }}</p>
+        </div>
+      </div>
+
+      <!-- Case Details -->
+      <div *ngIf="!loading && !error && legalCase" class="case-content">
+        <!-- Action Buttons -->
+        <div class="action-bar">
+          <button mat-raised-button (click)="goBack()">
+            <mat-icon>arrow_forward</mat-icon>
+            חזרה לחיפוש
+          </button>
+          <button mat-raised-button color="primary" (click)="printCase()">
+            <mat-icon>print</mat-icon>
+            הדפסה
+          </button>
+        </div>
+
+        <!-- Basic Info Card -->
+        <div class="info-card">
+          <h2 class="card-title">
+            <mat-icon>info</mat-icon>
+            מידע כללי
+          </h2>
+
+          <div class="info-grid">
+            <div class="info-item">
+              <span class="info-label">מספר תיק:</span>
+              <span class="info-value">{{ legalCase.case_number }}</span>
+            </div>
+
+            <div class="info-item">
+              <span class="info-label">תאריך פסק דין:</span>
+              <span class="info-value">{{ legalCase.verdict_date }}</span>
+            </div>
+
+            <div class="info-item">
+              <span class="info-label">בית משפט:</span>
+              <span class="info-value">{{ legalCase.court_type }}</span>
+            </div>
+
+            <div class="info-item" *ngIf="legalCase.court_location">
+              <span class="info-label">מיקום:</span>
+              <span class="info-value">{{ legalCase.court_location }}</span>
+            </div>
+
+            <div class="info-item" *ngIf="legalCase.legal_field">
+              <span class="info-label">תחום משפטי:</span>
+              <span class="info-value">{{ legalCase.legal_field }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Judges Card -->
+        <div class="info-card" *ngIf="judges.length > 0">
+          <h2 class="card-title">
+            <mat-icon>account_balance</mat-icon>
+            שופטים
+          </h2>
+
+          <div class="judges-list">
+            <div *ngFor="let judge of judges" class="judge-item">
+              <mat-icon *ngIf="judge.is_presiding" class="presiding-icon">star</mat-icon>
+              <div class="judge-info">
+                <strong>{{ judge.judge_title }} {{ judge.judge_name }}</strong>
+                <span *ngIf="judge.is_presiding" class="presiding-label">(שופט ראשי)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Parties Card -->
+        <div class="info-card" *ngIf="parties.length > 0">
+          <h2 class="card-title">
+            <mat-icon>people</mat-icon>
+            בעלי דין
+          </h2>
+
+          <div class="parties-grid">
+            <div *ngFor="let party of parties" class="party-item">
+              <mat-chip>{{ getPartyRole(party.party_role) }}</mat-chip>
+              <span>{{ party.party_name }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Case Text Card -->
+        <div class="info-card text-card">
+          <h2 class="card-title">
+            <mat-icon>description</mat-icon>
+            נוסח פסק הדין
+          </h2>
+
+          <div class="case-text">
+            <p *ngIf="!caseText && !loading">טוען את טקסט פסק הדין...</p>
+            <pre *ngIf="caseText">{{ caseText }}</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,377 @@
+<div class="terms-page">
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-container">
+      <div class="hero-title">
+        <mat-icon>library_books</mat-icon>
+        <h1>קבוצות מילים וביטויים משפטיים</h1>
+      </div>
+      <p class="hero-subtitle">ניהול מאגר המילים והביטויים המשפטיים</p>
+    </div>
+  </div>
+
+  <!-- Tabs Section -->
+  <div class="tabs-container">
+    <mat-tab-group class="custom-tabs" animationDuration="0ms">
+
+      <!-- Word Groups Tab -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>group_work</mat-icon>
+          קבוצות מילים
+        </ng-template>
+
+        <div class="tab-content">
+          <!-- Create New Group Card -->
+          <div class="create-card">
+            <h2>קבוצת מילים חדשה</h2>
+            <div class="form-grid">
+              <div class="form-field-wrapper">
+                <label class="field-label">שם הקבוצה *</label>
+                <input
+                  type="text"
+                  class="custom-input"
+                  [(ngModel)]="newGroup.group_name"
+                  placeholder="לדוגמה: חיות, כלי רכב"
+                />
+              </div>
+              <div class="form-field-wrapper">
+                <label class="field-label">תיאור</label>
+                <input
+                  type="text"
+                  class="custom-input"
+                  [(ngModel)]="newGroup.group_description"
+                  placeholder="תיאור קצר של הקבוצה"
+                />
+              </div>
+            </div>
+
+            <!-- Add Words -->
+            <div class="words-section">
+              <label class="field-label">מילים בקבוצה</label>
+              <div class="word-input-row">
+                <input
+                  type="text"
+                  class="custom-input"
+                  [formControl]="wordControl"
+                  [matAutocomplete]="auto"
+                  (keyup.enter)="addWordToNewGroup()"
+                  placeholder="הוסף מילה והקש Enter (התחל להקליד להשלמה אוטומטית)"
+                />
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onWordSelected($event)" class="custom-autocomplete">
+                  <mat-option *ngFor="let word of filteredWords | async" [value]="word.word">
+                    <span class="word-option">
+                      <strong>{{ word.word }}</strong>
+                      <span class="word-frequency">({{ word.total_occurrences }} מופעים)</span>
+                    </span>
+                  </mat-option>
+                </mat-autocomplete>
+                <button mat-raised-button color="primary" (click)="addWordToNewGroup()">
+                  <mat-icon>add</mat-icon>
+                  הוסף
+                </button>
+              </div>
+              <div class="words-chips" *ngIf="newGroup.words && newGroup.words.length > 0">
+                <mat-chip *ngFor="let word of newGroup.words" (removed)="removeWordFromNewGroup(word)">
+                  {{ word }}
+                  <button matChipRemove><mat-icon>cancel</mat-icon></button>
+                </mat-chip>
+              </div>
+            </div>
+
+            <div class="action-row">
+              <button
+                mat-raised-button
+                color="primary"
+                (click)="createGroup()"
+                [disabled]="!newGroup.group_name.trim() || !newGroup.words || newGroup.words.length === 0"
+              >
+                <mat-icon>save</mat-icon>
+                שמור קבוצה
+              </button>
+            </div>
+          </div>
+
+          <!-- Loading State -->
+          <div *ngIf="loadingGroups" class="loading-state">
+            <mat-spinner diameter="50"></mat-spinner>
+            <p>טוען קבוצות מילים...</p>
+          </div>
+
+          <!-- Groups List -->
+          <div class="groups-list" *ngIf="!loadingGroups">
+            <div class="group-card" *ngFor="let group of wordGroups">
+              <!-- View Mode -->
+              <div *ngIf="editingGroup?.group_id !== group.group_id" class="group-view">
+                <div class="group-header">
+                  <div class="group-info">
+                    <h3>{{ group.group_name }}</h3>
+                    <p *ngIf="group.group_description" class="group-description">{{ group.group_description }}</p>
+                  </div>
+                  <div class="group-actions">
+                    <button mat-icon-button (click)="startEditGroup(group)">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" (click)="deleteGroup(group.group_id!)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="words-chips" *ngIf="group.words && group.words.length > 0">
+                  <mat-chip *ngFor="let word of group.words">{{ word }}</mat-chip>
+                </div>
+
+                <div class="group-footer">
+                  <button mat-raised-button (click)="searchGroup(group.group_id!)" [disabled]="searchingGroup === group.group_id">
+                    <mat-spinner *ngIf="searchingGroup === group.group_id" diameter="20"></mat-spinner>
+                    <mat-icon *ngIf="searchingGroup !== group.group_id">search</mat-icon>
+                    חפש מופעים
+                  </button>
+                  <button mat-raised-button (click)="generateIndex(group.group_id!)">
+                    <mat-icon>download</mat-icon>
+                    יצא אינדקס
+                  </button>
+                  <span *ngIf="groupSearchResults[group.group_id!]" class="results-count">
+                    נמצאו {{ getTotalOccurrences(group.group_id!) }} מופעים
+                  </span>
+                </div>
+
+                <!-- Search Results with Navigation -->
+                <div *ngIf="groupSearchResults[group.group_id!]" class="search-results">
+                  <h4>תוצאות חיפוש:</h4>
+                  <div class="result-item" *ngFor="let result of groupSearchResults[group.group_id!]">
+                    <strong>{{ result.word }}</strong>: {{ result.occurrences.length }} מופעים
+
+                    <!-- Navigation Controls -->
+                    <div class="navigation-controls" *ngIf="result.occurrences.length > 1">
+                      <button mat-icon-button (click)="navigatePrevious(group.group_id!, result.word)"
+                              [disabled]="getCurrentIndex(group.group_id!, result.word) === 0">
+                        <mat-icon>navigate_before</mat-icon>
+                      </button>
+                      <span class="occurrence-counter">
+                        {{ getCurrentIndex(group.group_id!, result.word) + 1 }} / {{ result.occurrences.length }}
+                      </span>
+                      <button mat-icon-button (click)="navigateNext(group.group_id!, result.word)"
+                              [disabled]="getCurrentIndex(group.group_id!, result.word) === result.occurrences.length - 1">
+                        <mat-icon>navigate_next</mat-icon>
+                      </button>
+                    </div>
+
+                    <!-- Current Occurrence Display -->
+                    <div class="current-occurrence" *ngIf="result.occurrences.length > 0">
+                      <div class="occurrence-details">
+                        <a [routerLink]="['/case', getCurrentOccurrence(group.group_id!, result.word).case_id]"
+                           class="case-link">
+                          {{ getCurrentOccurrence(group.group_id!, result.word).case_title || 'תיק #' + getCurrentOccurrence(group.group_id!, result.word).case_id }}
+                        </a>
+                        <div class="location-info">
+                          <mat-chip>שורה {{ getCurrentOccurrence(group.group_id!, result.word).line_number }}</mat-chip>
+                          <mat-chip>פסקה {{ getCurrentOccurrence(group.group_id!, result.word).paragraph_number }}</mat-chip>
+                          <mat-chip *ngIf="getCurrentOccurrence(group.group_id!, result.word).section_number">
+                            סעיף {{ getCurrentOccurrence(group.group_id!, result.word).section_number }}
+                          </mat-chip>
+                        </div>
+                      </div>
+                      <div class="context-preview" *ngIf="getCurrentOccurrence(group.group_id!, result.word).context"
+                           [innerHTML]="getCurrentOccurrence(group.group_id!, result.word).context">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Edit Mode -->
+              <div *ngIf="editingGroup?.group_id === group.group_id && editingGroup" class="group-edit">
+                <h3>עריכת קבוצה</h3>
+                <div class="form-grid">
+                  <div class="form-field-wrapper">
+                    <label class="field-label">שם הקבוצה *</label>
+                    <input
+                      type="text"
+                      class="custom-input"
+                      [(ngModel)]="editingGroup.group_name"
+                    />
+                  </div>
+                  <div class="form-field-wrapper">
+                    <label class="field-label">תיאור</label>
+                    <input
+                      type="text"
+                      class="custom-input"
+                      [(ngModel)]="editingGroup.group_description"
+                    />
+                  </div>
+                </div>
+
+                <div class="words-section">
+                  <label class="field-label">מילים בקבוצה</label>
+                  <div class="word-input-row">
+                    <input
+                      type="text"
+                      class="custom-input"
+                      [(ngModel)]="newWord"
+                      (keyup.enter)="addWordToEditingGroup()"
+                      placeholder="הוסף מילה והקש Enter"
+                    />
+                    <button mat-raised-button color="primary" (click)="addWordToEditingGroup()">
+                      <mat-icon>add</mat-icon>
+                      הוסף
+                    </button>
+                  </div>
+                  <div class="words-chips" *ngIf="editingGroup.words && editingGroup.words.length > 0">
+                    <mat-chip *ngFor="let word of editingGroup.words" (removed)="removeWordFromEditingGroup(word)">
+                      {{ word }}
+                      <button matChipRemove><mat-icon>cancel</mat-icon></button>
+                    </mat-chip>
+                  </div>
+                </div>
+
+                <div class="action-row">
+                  <button mat-raised-button color="primary" (click)="saveGroup()">
+                    <mat-icon>save</mat-icon>
+                    שמור
+                  </button>
+                  <button mat-button (click)="cancelEditGroup()">
+                    ביטול
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+
+      <!-- Legal Phrases Tab -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>format_quote</mat-icon>
+          ביטויים משפטיים
+        </ng-template>
+
+        <div class="tab-content">
+          <!-- Create New Phrase Card -->
+          <div class="create-card">
+            <h2>ביטוי משפטי חדש</h2>
+            <div class="form-grid">
+              <div class="form-field-wrapper">
+                <label class="field-label">הביטוי *</label>
+                <input
+                  type="text"
+                  class="custom-input"
+                  [(ngModel)]="newPhrase.phrase_text"
+                  placeholder="לדוגמה: על פי החוק, בית המשפט העליון"
+                />
+              </div>
+              <div class="form-field-wrapper">
+                <label class="field-label">תיאור</label>
+                <input
+                  type="text"
+                  class="custom-input"
+                  [(ngModel)]="newPhrase.description"
+                  placeholder="תיאור או הסבר על הביטוי"
+                />
+              </div>
+            </div>
+
+            <div class="action-row">
+              <button
+                mat-raised-button
+                color="primary"
+                (click)="createPhrase()"
+                [disabled]="!newPhrase.phrase_text.trim()"
+              >
+                <mat-icon>save</mat-icon>
+                שמור ביטוי
+              </button>
+            </div>
+          </div>
+
+          <!-- Loading State -->
+          <div *ngIf="loadingPhrases" class="loading-state">
+            <mat-spinner diameter="50"></mat-spinner>
+            <p>טוען ביטויים...</p>
+          </div>
+
+          <!-- Phrases List -->
+          <div class="groups-list" *ngIf="!loadingPhrases">
+            <div class="group-card" *ngFor="let phrase of phrases">
+              <!-- View Mode -->
+              <div *ngIf="editingPhrase?.phrase_id !== phrase.phrase_id" class="group-view">
+                <div class="group-header">
+                  <div class="group-info">
+                    <h3>"{{ phrase.phrase_text }}"</h3>
+                    <p *ngIf="phrase.description" class="group-description">{{ phrase.description }}</p>
+                  </div>
+                  <div class="group-actions">
+                    <button mat-icon-button (click)="startEditPhrase(phrase)">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" (click)="deletePhrase(phrase.phrase_id!)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="group-footer">
+                  <button mat-raised-button (click)="searchPhraseOccurrences(phrase.phrase_id!)" [disabled]="searchingPhrase === phrase.phrase_id">
+                    <mat-spinner *ngIf="searchingPhrase === phrase.phrase_id" diameter="20"></mat-spinner>
+                    <mat-icon *ngIf="searchingPhrase !== phrase.phrase_id">search</mat-icon>
+                    חפש מופעים
+                  </button>
+                  <span *ngIf="phraseSearchResults[phrase.phrase_id!]" class="results-count">
+                    נמצאו {{ getPhraseOccurrencesCount(phrase.phrase_id!) }} מופעים
+                  </span>
+                </div>
+
+                <!-- Search Results -->
+                <div *ngIf="phraseSearchResults[phrase.phrase_id!]" class="search-results">
+                  <h4>תוצאות חיפוש:</h4>
+                  <div class="result-item" *ngFor="let result of phraseSearchResults[phrase.phrase_id!]">
+                    <a [routerLink]="['/case', result.case_id]" class="occurrence-link">
+                      <strong>{{ result.case_title }}</strong> ({{ result.case_number }})
+                      <br>
+                      <span class="context" [innerHTML]="result.context"></span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Edit Mode -->
+              <div *ngIf="editingPhrase?.phrase_id === phrase.phrase_id && editingPhrase" class="group-edit">
+                <h3>עריכת ביטוי</h3>
+                <div class="form-grid">
+                  <div class="form-field-wrapper">
+                    <label class="field-label">הביטוי *</label>
+                    <input
+                      type="text"
+                      class="custom-input"
+                      [(ngModel)]="editingPhrase.phrase_text"
+                    />
+                  </div>
+                  <div class="form-field-wrapper">
+                    <label class="field-label">תיאור</label>
+                    <input
+                      type="text"
+                      class="custom-input"
+                      [(ngModel)]="editingPhrase.description"
+                    />
+                  </div>
+                </div>
+
+                <div class="action-row">
+                  <button mat-raised-button color="primary" (click)="savePhrase()">
+                    <mat-icon>save</mat-icon>
+                    שמור
+                  </button>
+                  <button mat-button (click)="cancelEditPhrase()">
+                    ביטול
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

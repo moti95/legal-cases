@@ -1,0 +1,256 @@
+<div class="upload-page">
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-container">
+      <div class="hero-title">
+        <mat-icon>cloud_upload</mat-icon>
+        <h1>העלאת פסק דין חדש</h1>
+      </div>
+      <p class="hero-subtitle">הזן את פרטי פסק הדין והעלה את קובץ המסמך</p>
+    </div>
+  </div>
+
+  <!-- Content Section -->
+  <div class="content-section">
+    <div class="container">
+      <!-- Success Alert -->
+      <div class="alert alert-success" *ngIf="uploadSuccess">
+        <mat-icon>check_circle</mat-icon>
+        <div>
+          <strong>העלאה הושלמה בהצלחה!</strong>
+          <p>פסק הדין נוסף למערכת ונשמר בהצלחה</p>
+        </div>
+      </div>
+
+      <!-- Error Alert -->
+      <div class="alert alert-error" *ngIf="uploadError">
+        <mat-icon>error_outline</mat-icon>
+        <div>
+          <strong>שגיאה בהעלאה</strong>
+          <p>{{ uploadError }}</p>
+        </div>
+      </div>
+
+      <!-- Upload Form -->
+      <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()" class="upload-form">
+        <!-- Basic Info Section -->
+        <div class="form-section">
+          <h2 class="section-title">
+            <mat-icon>info</mat-icon>
+            פרטים כלליים
+          </h2>
+
+          <div class="form-row">
+            <div class="form-field-wrapper">
+              <label class="field-label">מספר תיק *</label>
+              <input
+                type="text"
+                class="custom-input"
+                formControlName="case_number"
+                placeholder="לדוגמה: עא 1234/20"
+              />
+            </div>
+
+            <div class="form-field-wrapper">
+              <label class="field-label">תאריך פסק דין *</label>
+              <input
+                type="date"
+                class="custom-input"
+                formControlName="verdict_date"
+              />
+            </div>
+          </div>
+
+          <div class="form-field-wrapper full-width">
+            <label class="field-label">כותרת התיק *</label>
+            <input
+              type="text"
+              class="custom-input"
+              formControlName="case_title"
+              placeholder="לדוגמה: פלוני נגד אלמוני"
+            />
+          </div>
+
+          <div class="form-row">
+            <div class="form-field-wrapper">
+              <label class="field-label">סוג בית משפט *</label>
+              <select class="custom-input" formControlName="court_type">
+                <option value="">בחר סוג בית משפט</option>
+                <option *ngFor="let type of courtTypes" [value]="type">{{ type }}</option>
+              </select>
+            </div>
+
+            <div class="form-field-wrapper">
+              <label class="field-label">מיקום בית משפט</label>
+              <input
+                type="text"
+                class="custom-input"
+                formControlName="court_location"
+                placeholder="לדוגמה: תל אביב"
+              />
+            </div>
+          </div>
+
+          <div class="form-field-wrapper full-width">
+            <label class="field-label">תחום משפטי</label>
+            <select class="custom-input" formControlName="legal_field">
+              <option value="">בחר תחום משפטי</option>
+              <option *ngFor="let field of legalFields" [value]="field">{{ field }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Judges Section -->
+        <div class="form-section">
+          <div class="section-header">
+            <h2 class="section-title">
+              <mat-icon>account_balance</mat-icon>
+              שופטים
+            </h2>
+            <button type="button" mat-raised-button color="primary" (click)="addJudge()">
+              <mat-icon>add</mat-icon>
+              הוסף שופט
+            </button>
+          </div>
+
+          <div formArrayName="judges" class="dynamic-list">
+            <div *ngFor="let judge of judges.controls; let i = index" [formGroupName]="i" class="dynamic-item">
+              <div class="item-badge">{{ i + 1 }}</div>
+
+              <div class="item-content">
+                <div class="form-row">
+                  <div class="form-field-wrapper">
+                    <label class="field-label">שם השופט *</label>
+                    <input
+                      type="text"
+                      class="custom-input"
+                      formControlName="judge_name"
+                      placeholder="שם מלא"
+                    />
+                  </div>
+
+                  <div class="form-field-wrapper">
+                    <label class="field-label">תפקיד</label>
+                    <select class="custom-input" formControlName="judge_title">
+                      <option *ngFor="let title of judgeTitles" [value]="title">{{ title }}</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="checkbox-wrapper">
+                  <input type="checkbox" formControlName="is_presiding" id="presiding-{{i}}" />
+                  <label for="presiding-{{i}}">שופט ראשי</label>
+                </div>
+              </div>
+
+              <button type="button" mat-icon-button color="warn" (click)="removeJudge(i)" class="remove-btn">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Parties Section -->
+        <div class="form-section">
+          <div class="section-header">
+            <h2 class="section-title">
+              <mat-icon>people</mat-icon>
+              בעלי דין
+            </h2>
+            <button type="button" mat-raised-button color="primary" (click)="addParty()">
+              <mat-icon>add</mat-icon>
+              הוסף בעל דין
+            </button>
+          </div>
+
+          <div formArrayName="parties" class="dynamic-list">
+            <div *ngFor="let party of parties.controls; let i = index" [formGroupName]="i" class="dynamic-item">
+              <div class="item-badge">{{ i + 1 }}</div>
+
+              <div class="item-content">
+                <div class="form-row">
+                  <div class="form-field-wrapper">
+                    <label class="field-label">שם בעל הדין *</label>
+                    <input
+                      type="text"
+                      class="custom-input"
+                      formControlName="party_name"
+                      placeholder="שם מלא"
+                    />
+                  </div>
+
+                  <div class="form-field-wrapper">
+                    <label class="field-label">תפקיד *</label>
+                    <select class="custom-input" formControlName="party_role">
+                      <option value="">בחר תפקיד</option>
+                      <option *ngFor="let role of partyRoles" [value]="role">{{ role }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <button type="button" mat-icon-button color="warn" (click)="removeParty(i)" class="remove-btn">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- File Upload Section -->
+        <div class="form-section">
+          <h2 class="section-title">
+            <mat-icon>attach_file</mat-icon>
+            קובץ פסק הדין *
+          </h2>
+
+          <div
+            class="file-upload-area"
+            [class.drag-over]="isDragging"
+            (dragover)="onDragOver($event)"
+            (dragleave)="onDragLeave($event)"
+            (drop)="onDrop($event)"
+            (click)="fileInput.click()"
+          >
+            <input
+              #fileInput
+              type="file"
+              accept=".pdf,.txt"
+              (change)="onFileSelected($event)"
+              style="display: none"
+            />
+
+            <div class="upload-content" *ngIf="!selectedFile">
+              <mat-icon>cloud_upload</mat-icon>
+              <h3>גרור קובץ לכאן או לחץ לבחירה</h3>
+              <p>קבצים נתמכים: PDF, TXT (עד 10MB)</p>
+            </div>
+
+            <div class="file-preview" *ngIf="selectedFile">
+              <mat-icon>description</mat-icon>
+              <div class="file-info">
+                <strong>{{ selectedFile.name }}</strong>
+                <span>{{ formatFileSize(selectedFile.size) }}</span>
+              </div>
+              <button type="button" mat-icon-button (click)="removeFile(); $event.stopPropagation()">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="form-actions">
+          <button type="submit" mat-raised-button color="primary" [disabled]="!uploadForm.valid || !selectedFile || uploading">
+            <mat-icon *ngIf="!uploading">upload</mat-icon>
+            <mat-spinner diameter="20" *ngIf="uploading"></mat-spinner>
+            {{ uploading ? 'מעלה...' : 'העלה פסק דין' }}
+          </button>
+          <button type="button" mat-button (click)="resetForm()" [disabled]="uploading">
+            <mat-icon>refresh</mat-icon>
+            אפס טופס
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

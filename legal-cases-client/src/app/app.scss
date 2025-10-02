@@ -1,0 +1,104 @@
+// ============================================
+// Google-style Toolbar (Gmail/Drive style)
+// ============================================
+
+.app-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--bg-primary) !important;
+  box-shadow: inset 0 -1px 0 0 var(--divider);
+  color: var(--text-primary) !important;
+  padding: 8px 24px;
+  height: 64px;
+
+  .toolbar-icon {
+    margin-left: 12px;
+    color: var(--google-blue);
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+  }
+
+  .toolbar-title {
+    font-size: 22px;
+    margin-right: 32px;
+    font-weight: 400;
+    color: var(--text-secondary);
+    letter-spacing: -0.02em;
+    font-family: 'Google Sans', 'Roboto', sans-serif;
+  }
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+
+  button {
+    margin: 0 4px;
+    color: var(--text-primary) !important;
+    border-radius: var(--radius-pill) !important;
+    font-size: 14px;
+    font-weight: 500;
+    height: 40px;
+    padding: 0 20px !important;
+    transition: all var(--transition-base);
+    letter-spacing: 0.25px;
+
+    &:hover:not(:disabled) {
+      background: var(--bg-hover) !important;
+    }
+
+    &.active {
+      background: var(--google-blue-lighter) !important;
+      color: var(--google-blue) !important;
+      font-weight: 500;
+    }
+
+    mat-icon {
+      color: inherit;
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+      // Icon positioning handled globally in styles.scss
+    }
+  }
+}
+
+// ============================================
+// Main Content
+// ============================================
+
+.main-content {
+  padding: 0;
+  max-width: 100%;
+  margin: 0 auto;
+  min-height: calc(100vh - 64px);
+  background-color: var(--bg-primary);
+  animation: fadeIn var(--transition-base);
+}
+
+// ============================================
+// Responsive
+// ============================================
+
+@media (max-width: 768px) {
+  .app-toolbar {
+    padding: 8px 16px;
+
+    .toolbar-title {
+      font-size: 18px;
+      margin-right: 16px;
+    }
+
+    button {
+      padding: 0 16px !important;
+      font-size: 13px;
+
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+}

@@ -1,0 +1,959 @@
+// Include theming for Angular Material
+@use '@angular/material' as mat;
+
+// Import shared styles
+@import 'app/shared/mixins';
+@import 'app/shared/components';
+
+// ============================================
+// Google Material Design 3 Theme
+// ============================================
+
+// Define Google Blue palette (like Gmail, Drive)
+$google-blue-palette: (
+  50: #e8f0fe,
+  100: #d2e3fc,
+  200: #aecbfa,
+  300: #8ab4f8,
+  400: #669df6,
+  500: #1a73e8,  // Google Blue
+  600: #1967d2,  // Darker blue
+  700: #185abc,
+  800: #174ea6,
+  900: #0d47a1,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  )
+);
+
+html {
+  @include mat.theme((
+    color: (
+      primary: $google-blue-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}
+
+// ============================================
+// Google Material Design 3 Variables
+// ============================================
+
+:root {
+  // ============================================
+  // Material 3 Expressive Color Palette
+  // ============================================
+
+  // Primary Blue - Enhanced with vibrant variations
+  --google-blue: #1a73e8;
+  --google-blue-hover: #1967d2;
+  --google-blue-vibrant: #1557b0;  // Deeper, richer blue
+  --google-blue-soft: #4285f4;     // Lighter, friendlier
+  --google-blue-glow: #8ab4f8;     // For glowing effects
+  --google-blue-light: #d2e3fc;
+  --google-blue-lighter: #e8f0fe;
+
+  // Expressive Accent Colors
+  --accent-warm: #f29900;           // Orange for important actions
+  --accent-warm-light: #fff4e0;
+  --accent-success: #34a853;        // Green for positive feedback
+  --accent-success-light: #e6f4ea;
+  --accent-alert: #ea4335;          // Red for critical items
+  --accent-alert-light: #fce8e6;
+
+  // Keep existing semantic colors
+  --google-red: #d93025;
+  --google-yellow: #f9ab00;
+  --google-green: #1e8e3e;
+
+  // Neutral Colors (Google style)
+  --text-primary: #202124;
+  --text-secondary: #5f6368;
+  --text-tertiary: #80868b;
+
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --bg-hover: #f1f3f4;
+  --bg-selected: #e8f0fe;
+
+  --border-color: #dadce0;
+  --border-hover: #bdc1c6;
+  --divider: #e8eaed;
+
+  // Google Spacing (4px grid system)
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 20px;
+  --spacing-2xl: 24px;
+  --spacing-3xl: 32px;
+  --spacing-4xl: 48px;
+
+  // Google Shadows - Soft & Subtle
+  --shadow-1: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+  --shadow-2: 0 1px 3px 0 rgba(60, 64, 67, 0.3), 0 4px 8px 3px rgba(60, 64, 67, 0.15);
+  --shadow-3: 0 2px 6px 2px rgba(60, 64, 67, 0.15), 0 8px 24px 4px rgba(60, 64, 67, 0.15);
+  --shadow-4: 0 4px 8px 3px rgba(60, 64, 67, 0.15), 0 12px 28px 6px rgba(60, 64, 67, 0.15);
+
+  // ============================================
+  // Material 3 Expressive Motion System
+  // ============================================
+
+  // Standard transitions (keep existing)
+  --transition-fast: 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  // Expressive Spring Motion
+  --spring-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --spring-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --spring-sharp: cubic-bezier(0.4, 0, 0.6, 1);
+  --spring-elastic: cubic-bezier(0.87, -0.41, 0.19, 1.44);
+
+  // Motion durations
+  --duration-instant: 100ms;
+  --duration-fast: 200ms;
+  --duration-medium: 300ms;
+  --duration-slow: 400ms;
+  --duration-deliberate: 600ms;
+
+  // ============================================
+  // Material 3 Expressive Shape System
+  // ============================================
+
+  // Border Radius - Keep rounded style with expressive additions
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 100px;          // Keep pill-shaped
+  --radius-circle: 50%;
+  --radius-squircle: 20px;       // Soft square for variety
+  --radius-asymmetric: 16px 48px 16px 48px;  // For visual interest
+}
+
+// ============================================
+// Global Styles
+// ============================================
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  color-scheme: light;
+  background-color: var(--bg-primary);
+  font-family: 'Google Sans', 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+/* RTL Support for Hebrew */
+html[dir="rtl"],
+body[dir="rtl"],
+.rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+// ============================================
+// Material Design Overrides - Google Style
+// ============================================
+
+.mat-mdc-form-field {
+  text-align: right;
+}
+
+.mat-mdc-card-header {
+  text-align: right;
+}
+
+// Material 3 Expressive Cards - with shape variety
+.mat-mdc-card {
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-1) !important;
+  border: 1px solid var(--divider);
+  transition: all var(--duration-medium) var(--spring-smooth);
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    box-shadow: var(--shadow-2) !important;
+    transform: translateY(-2px);
+  }
+
+  // Expressive shape variations
+  &.card-squircle {
+    border-radius: var(--radius-squircle) !important;
+  }
+
+  &.card-asymmetric {
+    border-radius: var(--radius-asymmetric) !important;
+  }
+
+  &.card-pill {
+    border-radius: var(--radius-pill) !important;
+  }
+
+  // Priority-based styling
+  &.card-priority-high {
+    border-left: 4px solid var(--accent-warm) !important;
+    background: linear-gradient(90deg,
+      var(--accent-warm-light) 0%,
+      white 10%) !important;
+  }
+
+  &.card-priority-success {
+    border-left: 4px solid var(--accent-success) !important;
+    background: linear-gradient(90deg,
+      var(--accent-success-light) 0%,
+      white 10%) !important;
+  }
+
+  &.card-priority-alert {
+    border-left: 4px solid var(--accent-alert) !important;
+    background: linear-gradient(90deg,
+      var(--accent-alert-light) 0%,
+      white 10%) !important;
+  }
+
+  // Morphing on hover
+  &.card-morph:hover {
+    border-radius: var(--radius-squircle) !important;
+  }
+}
+
+// Material 3 Expressive Buttons - Enhanced with spring motion
+.mat-mdc-button,
+.mat-mdc-raised-button,
+.mat-mdc-outlined-button,
+.mat-mdc-unelevated-button,
+button[mat-button],
+button[mat-raised-button],
+button[mat-flat-button],
+button[mat-stroked-button] {
+  border-radius: var(--radius-pill) !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  letter-spacing: 0.25px !important;
+  text-transform: none !important;
+  padding: 0 24px !important;
+  min-height: 36px !important;
+  height: auto !important;
+  line-height: 36px !important;
+  transition: all var(--duration-fast) var(--spring-smooth) !important;
+  position: relative;
+  overflow: hidden;
+
+  // Expressive hover effect
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background: radial-gradient(circle, var(--google-blue-glow) 0%, transparent 70%);
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    transition: all var(--duration-medium) var(--spring-bounce);
+  }
+
+  &:hover::before {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0.1;
+  }
+
+  // Spring animation on click
+  &:active {
+    transform: scale(0.96);
+    transition: transform var(--duration-instant) var(--spring-sharp);
+  }
+
+  // Override Material's internal button structure
+  .mat-mdc-button-touch-target {
+    border-radius: var(--radius-pill) !important;
+  }
+
+  // Fix icon positioning for RTL (icon should be on right of text)
+  .mdc-button__label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-direction: row-reverse; // Reverse order for RTL: text first, then icon
+  }
+
+  // Icon should have margin on the right in RTL
+  mat-icon {
+    margin-left: 0 !important;
+    margin-right: 8px !important;
+  }
+}
+
+// Icon buttons - perfect circles
+.mat-mdc-icon-button,
+button[mat-icon-button] {
+  border-radius: var(--radius-circle) !important;
+  transition: background-color var(--transition-base) !important;
+  width: 40px !important;
+  height: 40px !important;
+  padding: 8px !important;
+}
+
+// Google-style FAB buttons - rounded squares
+.mat-mdc-fab,
+.mat-mdc-mini-fab {
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-2) !important;
+
+  &:hover {
+    box-shadow: var(--shadow-3) !important;
+  }
+}
+
+// Specific overrides for raised/flat buttons
+.mat-mdc-raised-button,
+.mat-mdc-unelevated-button,
+button[mat-raised-button],
+button[mat-flat-button] {
+  box-shadow: var(--shadow-1) !important;
+
+  &:hover:not(:disabled) {
+    box-shadow: var(--shadow-2) !important;
+  }
+}
+
+// Outlined buttons
+.mat-mdc-outlined-button,
+button[mat-stroked-button] {
+  border: 1px solid var(--border-color) !important;
+
+  &:hover:not(:disabled) {
+    background: var(--bg-hover) !important;
+    border-color: var(--border-hover) !important;
+  }
+}
+
+// Override ALL button types at the element level
+button {
+  &:not(.mat-mdc-icon-button):not([type="submit"]):not([type="button"]):not([type="reset"]) {
+    border-radius: var(--radius-pill) !important;
+  }
+}
+
+// Override Material's ripple container
+.mat-mdc-button-persistent-ripple,
+.mat-mdc-button-ripple,
+.mat-ripple {
+  border-radius: inherit !important;
+}
+
+// Stepper buttons (for case-upload)
+.mat-stepper-next,
+.mat-stepper-previous {
+  border-radius: var(--radius-pill) !important;
+}
+
+// Dialog buttons
+.mat-mdc-dialog-actions button {
+  border-radius: var(--radius-pill) !important;
+}
+
+// Tab labels rounded
+.mat-mdc-tab {
+  border-radius: var(--radius-pill) var(--radius-pill) 0 0 !important;
+}
+
+// Chips - pill shaped
+.mat-mdc-chip,
+.mat-mdc-standard-chip {
+  border-radius: var(--radius-pill) !important;
+
+  .mat-mdc-chip-remove {
+    border-radius: var(--radius-circle) !important;
+  }
+}
+
+// Form field - rounded
+.mat-mdc-form-field {
+  .mat-mdc-text-field-wrapper {
+    border-radius: var(--radius-sm) !important;
+  }
+}
+
+// Select panel
+.mat-mdc-select-panel {
+  border-radius: var(--radius-lg) !important;
+}
+
+// Menu panel
+.mat-mdc-menu-panel {
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-2) !important;
+}
+
+// ============================================
+// Google Scrollbar
+// ============================================
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 100px;
+  border: 3px solid var(--bg-primary);
+
+  &:hover {
+    background: var(--border-hover);
+  }
+}
+
+// ============================================
+// Utility Classes
+// ============================================
+
+.text-center {
+  text-align: center;
+}
+
+.mt-8 { margin-top: var(--spacing-sm); }
+.mt-12 { margin-top: var(--spacing-md); }
+.mt-16 { margin-top: var(--spacing-lg); }
+.mt-24 { margin-top: var(--spacing-2xl); }
+
+.mb-8 { margin-bottom: var(--spacing-sm); }
+.mb-12 { margin-bottom: var(--spacing-md); }
+.mb-16 { margin-bottom: var(--spacing-lg); }
+.mb-24 { margin-bottom: var(--spacing-2xl); }
+
+// ============================================
+// Material 3 Expressive Typography
+// ============================================
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
+  font-weight: 400;
+  line-height: 1.25;
+  margin: 0;
+  font-family: 'Google Sans', 'Roboto', sans-serif;
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 400;
+}
+
+h3 {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+h4 {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+h5 {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+h6 {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+p {
+  margin: 0 0 12px 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+// ============================================
+// Expressive Typography Classes
+// ============================================
+
+// Hero Headlines - For maximum impact
+.headline-hero {
+  font-size: 48px !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1.1 !important;
+
+  @media (min-width: 768px) {
+    font-size: 64px !important;
+  }
+}
+
+// Emphasized text - For drawing attention
+.text-emphasis {
+  font-weight: 700 !important;
+  color: var(--google-blue-vibrant) !important;
+}
+
+// Gradient text - For special moments
+.text-gradient {
+  background: linear-gradient(135deg,
+    var(--google-blue) 0%,
+    var(--google-blue-vibrant) 50%,
+    var(--google-blue-soft) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+}
+
+// Animated gradient text
+.text-gradient-animated {
+  background: linear-gradient(90deg,
+    var(--google-blue) 0%,
+    var(--accent-warm) 33%,
+    var(--google-blue-vibrant) 66%,
+    var(--google-blue) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShift 3s ease infinite;
+  font-weight: 900;
+}
+
+// Action text - For CTAs
+.text-action {
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+  font-size: 14px !important;
+}
+
+// Large numbers - For statistics
+.text-statistic {
+  font-size: 72px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  letter-spacing: -0.03em !important;
+  animation: countUp var(--duration-slow) var(--spring-smooth);
+}
+
+// ============================================
+// Links - Google Style
+// ============================================
+
+a {
+  color: var(--google-blue);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+
+  &:hover {
+    color: var(--google-blue-hover);
+    text-decoration: underline;
+  }
+}
+
+// ============================================
+// Loading States
+// ============================================
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(4px);
+}
+
+// ============================================
+// Material 3 Expressive Animations
+// ============================================
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(8px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+// New expressive animations
+@keyframes springIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.85) translateY(10px);
+  }
+  50% {
+    transform: scale(1.03) translateY(-2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes morphShape {
+  0% {
+    border-radius: var(--radius-pill);
+  }
+  50% {
+    border-radius: var(--radius-squircle);
+  }
+  100% {
+    border-radius: var(--radius-pill);
+  }
+}
+
+@keyframes countUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+// Animation classes
+.fade-in {
+  animation: fadeIn var(--transition-base);
+}
+
+.slide-up {
+  animation: slideUp var(--transition-base);
+}
+
+.scale-in {
+  animation: scaleIn var(--transition-base);
+}
+
+.spring-in {
+  animation: springIn var(--duration-medium) var(--spring-bounce);
+}
+
+.pulse-infinite {
+  animation: pulse 2s var(--spring-smooth) infinite;
+}
+
+.shimmer {
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255,255,255,0.4) 50%,
+    transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.gradient-animated {
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease infinite;
+}
+
+// ============================================
+// Elevation System - Google Material 3
+// ============================================
+
+.elevation-0 {
+  box-shadow: none;
+}
+
+.elevation-1 {
+  box-shadow: var(--shadow-1);
+}
+
+.elevation-2 {
+  box-shadow: var(--shadow-2);
+}
+
+.elevation-3 {
+  box-shadow: var(--shadow-3);
+}
+
+.elevation-4 {
+  box-shadow: var(--shadow-4);
+}
+
+// ============================================
+// Google-style Tables
+// ============================================
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  font-weight: 500;
+  font-size: 12px;
+  padding: 12px 16px;
+  text-align: right;
+  border-bottom: 1px solid var(--divider);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--divider);
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+tr:hover {
+  background-color: var(--bg-hover);
+}
+
+// ============================================
+// Google-style Forms
+// ============================================
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+input[type="search"],
+select,
+textarea {
+  width: 100%;
+  padding: 10px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: inherit;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: all var(--transition-fast);
+
+  &:hover {
+    border-color: var(--border-hover);
+    background-color: var(--bg-hover);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--google-blue);
+    background-color: var(--bg-primary);
+    box-shadow: 0 0 0 4px var(--google-blue-lighter);
+  }
+
+  &::placeholder {
+    color: var(--text-tertiary);
+  }
+}
+
+// ============================================
+// Google-style Chips/Tags
+// ============================================
+
+.chip,
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-hover);
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 500;
+  transition: background-color var(--transition-fast);
+
+  &:hover {
+    background: var(--border-color);
+  }
+}
+
+// ============================================
+// Google-style Buttons
+// ============================================
+
+.google-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 24px;
+  height: 36px;
+  border-radius: var(--radius-pill);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.25px;
+  cursor: pointer;
+  border: none;
+  transition: all var(--transition-base);
+  font-family: inherit;
+
+  &.primary {
+    background: var(--google-blue);
+    color: white;
+    box-shadow: var(--shadow-1);
+
+    &:hover {
+      background: var(--google-blue-hover);
+      box-shadow: var(--shadow-2);
+    }
+
+    &:active {
+      box-shadow: var(--shadow-1);
+    }
+  }
+
+  &.secondary {
+    background: var(--bg-primary);
+    color: var(--google-blue);
+    border: 1px solid var(--border-color);
+
+    &:hover {
+      background: var(--bg-hover);
+      border-color: var(--border-hover);
+    }
+  }
+
+  &.text {
+    background: transparent;
+    color: var(--google-blue);
+
+    &:hover {
+      background: var(--google-blue-lighter);
+    }
+  }
+
+  &:disabled {
+    opacity: 0.38;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+// ============================================
+// Container
+// ============================================
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.container-lg {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.container-sm {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+// ============================================
+// Google-style Surface
+// ============================================
+
+.surface {
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1);
+  border: 1px solid var(--divider);
+}
+
+.surface-elevated {
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-2);
+}

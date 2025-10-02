@@ -1,0 +1,236 @@
+<div class="search-page">
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-container">
+      <div class="hero-title">
+        <mat-icon>gavel</mat-icon>
+        <h1>מערכת חיפוש פסקי דין</h1>
+      </div>
+      <p class="hero-subtitle">מנוע חיפוש מתקדם לפסקי דין מבתי המשפט בישראל</p>
+
+      <!-- Search Box -->
+      <div class="search-wrapper">
+        <div class="search-input-group">
+          <input
+            type="text"
+            class="search-input"
+            [(ngModel)]="searchTerm"
+            (keyup.enter)="onSearch()"
+            placeholder='חפש לפי מונח, מספר תיק או ביטוי... (לדוגמה: "נזיקין" או "ע״א 1234/20")'
+            [disabled]="loading"
+          />
+          <button class="search-button" (click)="onSearch()" [disabled]="loading || !searchTerm">
+            <mat-icon *ngIf="!loading">search</mat-icon>
+            <mat-spinner diameter="24" *ngIf="loading"></mat-spinner>
+          </button>
+        </div>
+
+        <div class="search-controls">
+          <mat-checkbox [(ngModel)]="phraseSearch" [disabled]="loading">
+            חיפוש ביטוי מדויק
+          </mat-checkbox>
+          <button mat-raised-button class="filter-button" (click)="toggleFilters()" [disabled]="loading">
+            <mat-icon>filter_list</mat-icon>
+            סינון מתקדם
+            <span *ngIf="getActiveFiltersCount() > 0" class="filter-count">({{ getActiveFiltersCount() }})</span>
+          </button>
+          <button mat-button (click)="clearSearch()" [disabled]="loading" *ngIf="searchTerm">
+            <mat-icon>clear</mat-icon>
+            נקה
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Advanced Filters Panel -->
+  <div class="filters-section" *ngIf="showFilters">
+    <div class="container">
+      <div class="filters-card">
+        <h3 class="filters-title">
+          <mat-icon>filter_alt</mat-icon>
+          סינון מתקדם
+        </h3>
+
+        <div class="filters-grid">
+          <div class="filter-field">
+            <label class="filter-label">סוג בית משפט</label>
+            <select class="custom-input" [(ngModel)]="courtType">
+              <option value="">הכל</option>
+              <option *ngFor="let type of courtTypes" [value]="type">{{ type }}</option>
+            </select>
+          </div>
+
+          <div class="filter-field">
+            <label class="filter-label">מספר תיק</label>
+            <input type="text" class="custom-input" [(ngModel)]="caseNumber" placeholder='לדוגמה: ע"א 1234/20' />
+          </div>
+
+          <div class="filter-field">
+            <label class="filter-label">תאריך מ-</label>
+            <input type="date" class="custom-input" [(ngModel)]="dateFrom" />
+          </div>
+
+          <div class="filter-field">
+            <label class="filter-label">תאריך עד</label>
+            <input type="date" class="custom-input" [(ngModel)]="dateTo" />
+          </div>
+
+          <div class="filter-field">
+            <label class="filter-label">מספר שורה</label>
+            <input type="number" class="custom-input" [(ngModel)]="lineNumber" placeholder="לדוגמה: 20" min="1" />
+          </div>
+
+          <div class="filter-field">
+            <label class="filter-label">מספר פסקה</label>
+            <input type="number" class="custom-input" [(ngModel)]="paragraphNumber" placeholder="לדוגמה: 5" min="1" />
+          </div>
+        </div>
+
+        <div class="filters-actions">
+          <button mat-raised-button color="primary" (click)="onSearch()" [disabled]="loading">
+            <mat-icon>search</mat-icon>
+            החל סינון
+          </button>
+          <button mat-button (click)="clearFilters()" *ngIf="hasActiveFilters()">
+            <mat-icon>clear_all</mat-icon>
+            נקה סינונים
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results Section -->
+  <div class="content-section">
+    <div class="container">
+      <!-- Error -->
+      <div class="alert alert-error" *ngIf="error && !loading">
+        <mat-icon>error_outline</mat-icon>
+        <div>
+          <strong>שגיאה בחיפוש</strong>
+          <p>{{ error }}</p>
+        </div>
+      </div>
+
+      <!-- Active Filters Chips -->
+      <div class="active-filters" *ngIf="hasActiveFilters() && !loading">
+        <span class="filters-label">סינונים פעילים:</span>
+        <mat-chip *ngIf="courtType" (removed)="removeFilter('courtType')">
+          {{ courtType }}
+          <button matChipRemove><mat-icon>cancel</mat-icon></button>
+        </mat-chip>
+        <mat-chip *ngIf="caseNumber" (removed)="removeFilter('caseNumber')">
+          תיק: {{ caseNumber }}
+          <button matChipRemove><mat-icon>cancel</mat-icon></button>
+        </mat-chip>
+        <mat-chip *ngIf="dateFrom || dateTo" (removed)="removeFilter('dateFrom')">
+          תאריכים: {{ dateFrom || '...' }} - {{ dateTo || '...' }}
+          <button matChipRemove><mat-icon>cancel</mat-icon></button>
+        </mat-chip>
+        <mat-chip *ngIf="lineNumber" (removed)="removeFilter('lineNumber')">
+          שורה: {{ lineNumber }}
+          <button matChipRemove><mat-icon>cancel</mat-icon></button>
+        </mat-chip>
+        <mat-chip *ngIf="paragraphNumber" (removed)="removeFilter('paragraphNumber')">
+          פסקה: {{ paragraphNumber }}
+          <button matChipRemove><mat-icon>cancel</mat-icon></button>
+        </mat-chip>
+      </div>
+
+      <!-- Skeleton Loading -->
+      <div class="skeleton-grid" *ngIf="loading">
+        <div class="skeleton-card" *ngFor="let item of [1,2,3,4,5]">
+          <div class="skeleton-badge"></div>
+          <div class="skeleton-body">
+            <div class="skeleton-title"></div>
+            <div class="skeleton-info">
+              <div class="skeleton-info-item"></div>
+              <div class="skeleton-info-item"></div>
+              <div class="skeleton-info-item"></div>
+            </div>
+            <div class="skeleton-excerpt"></div>
+            <div class="skeleton-buttons">
+              <div class="skeleton-button"></div>
+              <div class="skeleton-button"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Header -->
+      <div class="results-header" *ngIf="results.length > 0 && !loading">
+        <h2>נמצאו {{ results.length }} תוצאות עבור: <span>"{{ searchTerm }}"</span></h2>
+      </div>
+
+      <!-- Results -->
+      <div class="results-grid" *ngIf="results.length > 0 && !loading">
+        <div class="result-card" *ngFor="let result of results; let i = index">
+          <div class="result-badge">{{ i + 1 }}</div>
+
+          <div class="result-body">
+            <h3 class="result-title">{{ result.case_title }}</h3>
+
+            <div class="result-info">
+              <span class="info-item">
+                <mat-icon>folder</mat-icon>
+                {{ result.case_number }}
+              </span>
+              <span class="info-item">
+                <mat-icon>account_balance</mat-icon>
+                {{ result.court_type }}
+              </span>
+              <span class="info-item">
+                <mat-icon>event</mat-icon>
+                {{ result.verdict_date }}
+              </span>
+              <span class="info-item" *ngIf="result.legal_field">
+                <mat-icon>description</mat-icon>
+                {{ result.legal_field }}
+              </span>
+            </div>
+
+            <div class="result-excerpt">
+              <p [innerHTML]="result.context"></p>
+            </div>
+
+            <div class="result-actions">
+              <button mat-raised-button color="primary" [routerLink]="['/case', result.case_id]">
+                <mat-icon>visibility</mat-icon>
+                צפה בפסק דין
+              </button>
+              <button mat-button>
+                <mat-icon>bookmark_border</mat-icon>
+                שמור
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- No Results -->
+      <div class="empty-state" *ngIf="results.length === 0 && !loading && searchTerm && !error">
+        <mat-icon>search_off</mat-icon>
+        <h3>לא נמצאו תוצאות</h3>
+        <p>לא נמצאו פסקי דין התואמים לחיפוש שלך</p>
+        <button mat-raised-button color="primary" (click)="clearSearch()">נסה שוב</button>
+      </div>
+
+      <!-- Initial State -->
+      <div class="empty-state" *ngIf="!searchTerm && results.length === 0 && !loading">
+        <mat-icon>search</mat-icon>
+        <h3>חפש פסקי דין</h3>
+        <p>הזן מונח חיפוש, מספר תיק או ביטוי משפטי למציאת פסקי דין רלוונטיים</p>
+
+        <div class="tips-box">
+          <h4>דוגמאות לחיפוש:</h4>
+          <ul>
+            <li>מונחים משפטיים: <code>נזיקין</code>, <code>חוזה</code></li>
+            <li>מספר תיק: <code>ע"א 1234/20</code></li>
+            <li>שם שופט או בית משפט</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

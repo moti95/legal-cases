@@ -1,0 +1,29 @@
+<mat-toolbar color="primary" class="app-toolbar">
+  <mat-icon class="toolbar-icon">gavel</mat-icon>
+  <span class="toolbar-title">מערכת פסקי דין - קונקורדנציה משפטית</span>
+  <span class="spacer"></span>
+
+  <button mat-button routerLink="/search" routerLinkActive="active">
+    <mat-icon>search</mat-icon>
+    חיפוש
+  </button>
+
+  <button mat-button routerLink="/upload" routerLinkActive="active">
+    <mat-icon>cloud_upload</mat-icon>
+    העלאה
+  </button>
+
+  <button mat-button routerLink="/terms" routerLinkActive="active">
+    <mat-icon>library_books</mat-icon>
+    קבוצות מילים
+  </button>
+
+  <button mat-button routerLink="/words-index" routerLinkActive="active">
+    <mat-icon>format_list_bulleted</mat-icon>
+    אינדקס מילים
+  </button>
+</mat-toolbar>
+
+<div class="main-content">
+  <router-outlet />
+</div>

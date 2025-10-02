@@ -1,0 +1,276 @@
+// Import shared mixins and components
+@import '../../shared/mixins';
+@import '../../shared/components';
+
+:host {
+  @include rtl-base;
+}
+
+.details-page {
+  @include page-container;
+}
+
+// Hero Section
+.hero-section {
+  @include hero-section;
+}
+
+.hero-container {
+  @include hero-container;
+}
+
+.hero-title {
+  @include hero-title;
+}
+
+.hero-subtitle {
+  font-size: 18px;
+  margin: 0;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+// Content Section
+.content-section {
+  background: var(--bg-primary);
+  min-height: 400px;
+  padding: 32px 24px;
+}
+
+.container {
+  @include content-container(1100px);
+}
+
+// Skeleton Loading
+.skeleton-case {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.skeleton-action-bar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.skeleton-action-button {
+  height: 40px;
+  width: 150px;
+  @include skeleton-animation;
+  @include pill-button;
+}
+
+.skeleton-card-title {
+  height: 24px;
+  width: 150px;
+  @include skeleton-animation;
+  border-radius: 4px;
+  margin-bottom: 24px;
+}
+
+.skeleton-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.skeleton-info-item {
+  height: 20px;
+  @include skeleton-animation;
+  border-radius: 4px;
+}
+
+.skeleton-text {
+  height: 300px;
+  @include skeleton-animation;
+  border-radius: 8px;
+}
+
+// Case Content
+.case-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+// Info Cards
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin: 0 0 20px 0;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--divider);
+
+  mat-icon {
+    color: var(--google-blue);
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+  }
+}
+
+// Info Value Override (specific to this component)
+.info-value {
+  font-size: 14px;
+  color: var(--text-primary);
+  font-weight: 400;
+}
+
+// Judges List
+.judges-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.judge-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  border-right: 3px solid var(--border-color);
+  transition: all var(--transition-base);
+
+  &:hover {
+    border-right-color: var(--google-blue);
+    background: var(--google-blue-lighter);
+  }
+}
+
+.presiding-icon {
+  color: var(--google-yellow);
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+}
+
+.judge-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+
+  strong {
+    color: var(--text-primary);
+  }
+}
+
+.presiding-label {
+  font-size: 13px;
+  color: var(--google-yellow);
+  font-weight: 500;
+}
+
+// Parties Grid
+.parties-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.party-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+
+  mat-chip {
+    background: var(--google-blue);
+    color: white;
+    font-weight: 500;
+    font-size: 12px;
+    @include pill-button;
+  }
+
+  span {
+    color: var(--text-primary);
+    font-weight: 400;
+  }
+}
+
+// Case Text
+.text-card {
+  @include card-section;
+
+  .case-text {
+    background: var(--bg-secondary);
+    padding: 24px;
+    border-radius: var(--radius-md);
+    max-height: 600px;
+    overflow-y: auto;
+
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--text-primary);
+    }
+
+    p {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin: 0;
+    }
+  }
+}
+
+// Responsive
+@include mobile {
+  .hero-title {
+    h1 {
+      font-size: 24px;
+    }
+  }
+
+  .hero-subtitle {
+    font-size: 16px;
+  }
+
+  .info-card {
+    padding: 20px;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .parties-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Print Styles
+@media print {
+  .action-bar {
+    display: none;
+  }
+
+  .hero-section {
+    background: none;
+    color: black;
+    padding: 20px 0;
+  }
+
+  .content-section {
+    background: white;
+  }
+
+  .info-card {
+    box-shadow: none;
+    border: 1px solid #ddd;
+    page-break-inside: avoid;
+  }
+}
