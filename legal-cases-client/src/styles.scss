@@ -198,45 +198,6 @@ body[dir="rtl"],
     transform: translateY(-2px);
   }
 
-  // Expressive shape variations
-  &.card-squircle {
-    border-radius: var(--radius-squircle) !important;
-  }
-
-  &.card-asymmetric {
-    border-radius: var(--radius-asymmetric) !important;
-  }
-
-  &.card-pill {
-    border-radius: var(--radius-pill) !important;
-  }
-
-  // Priority-based styling
-  &.card-priority-high {
-    border-left: 4px solid var(--accent-warm) !important;
-    background: linear-gradient(90deg,
-      var(--accent-warm-light) 0%,
-      white 10%) !important;
-  }
-
-  &.card-priority-success {
-    border-left: 4px solid var(--accent-success) !important;
-    background: linear-gradient(90deg,
-      var(--accent-success-light) 0%,
-      white 10%) !important;
-  }
-
-  &.card-priority-alert {
-    border-left: 4px solid var(--accent-alert) !important;
-    background: linear-gradient(90deg,
-      var(--accent-alert-light) 0%,
-      white 10%) !important;
-  }
-
-  // Morphing on hover
-  &.card-morph:hover {
-    border-radius: var(--radius-squircle) !important;
-  }
 }
 
 // Material 3 Expressive Buttons - Enhanced with spring motion
@@ -432,23 +393,6 @@ button {
   }
 }
 
-// ============================================
-// Utility Classes
-// ============================================
-
-.text-center {
-  text-align: center;
-}
-
-.mt-8 { margin-top: var(--spacing-sm); }
-.mt-12 { margin-top: var(--spacing-md); }
-.mt-16 { margin-top: var(--spacing-lg); }
-.mt-24 { margin-top: var(--spacing-2xl); }
-
-.mb-8 { margin-bottom: var(--spacing-sm); }
-.mb-12 { margin-bottom: var(--spacing-md); }
-.mb-16 { margin-bottom: var(--spacing-lg); }
-.mb-24 { margin-bottom: var(--spacing-2xl); }
 
 // ============================================
 // Material 3 Expressive Typography
@@ -502,71 +446,6 @@ p {
   line-height: 1.5;
 }
 
-// ============================================
-// Expressive Typography Classes
-// ============================================
-
-// Hero Headlines - For maximum impact
-.headline-hero {
-  font-size: 48px !important;
-  font-weight: 900 !important;
-  letter-spacing: -0.02em !important;
-  line-height: 1.1 !important;
-
-  @media (min-width: 768px) {
-    font-size: 64px !important;
-  }
-}
-
-// Emphasized text - For drawing attention
-.text-emphasis {
-  font-weight: 700 !important;
-  color: var(--google-blue-vibrant) !important;
-}
-
-// Gradient text - For special moments
-.text-gradient {
-  background: linear-gradient(135deg,
-    var(--google-blue) 0%,
-    var(--google-blue-vibrant) 50%,
-    var(--google-blue-soft) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: 700;
-}
-
-// Animated gradient text
-.text-gradient-animated {
-  background: linear-gradient(90deg,
-    var(--google-blue) 0%,
-    var(--accent-warm) 33%,
-    var(--google-blue-vibrant) 66%,
-    var(--google-blue) 100%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: gradientShift 3s ease infinite;
-  font-weight: 900;
-}
-
-// Action text - For CTAs
-.text-action {
-  font-weight: 700 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.1em !important;
-  font-size: 14px !important;
-}
-
-// Large numbers - For statistics
-.text-statistic {
-  font-size: 72px !important;
-  font-weight: 900 !important;
-  line-height: 1 !important;
-  letter-spacing: -0.03em !important;
-  animation: countUp var(--duration-slow) var(--spring-smooth);
-}
 
 // ============================================
 // Links - Google Style
@@ -602,66 +481,10 @@ a {
 }
 
 // ============================================
-// Material 3 Expressive Animations
+// Animations (keeping only used ones)
 // ============================================
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideUp {
-  from {
-    transform: translateY(8px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    transform: scale(0.95);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-// New expressive animations
-@keyframes springIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.85) translateY(10px);
-  }
-  50% {
-    transform: scale(1.03) translateY(-2px);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.05);
-    opacity: 0.8;
-  }
-}
-
+// Used by skeleton mixin
 @keyframes shimmer {
   0% {
     background-position: -200% 0;
@@ -671,99 +494,7 @@ a {
   }
 }
 
-@keyframes gradientShift {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
 
-@keyframes morphShape {
-  0% {
-    border-radius: var(--radius-pill);
-  }
-  50% {
-    border-radius: var(--radius-squircle);
-  }
-  100% {
-    border-radius: var(--radius-pill);
-  }
-}
-
-@keyframes countUp {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-// Animation classes
-.fade-in {
-  animation: fadeIn var(--transition-base);
-}
-
-.slide-up {
-  animation: slideUp var(--transition-base);
-}
-
-.scale-in {
-  animation: scaleIn var(--transition-base);
-}
-
-.spring-in {
-  animation: springIn var(--duration-medium) var(--spring-bounce);
-}
-
-.pulse-infinite {
-  animation: pulse 2s var(--spring-smooth) infinite;
-}
-
-.shimmer {
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(255,255,255,0.4) 50%,
-    transparent 100%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-}
-
-.gradient-animated {
-  background-size: 200% 200%;
-  animation: gradientShift 3s ease infinite;
-}
-
-// ============================================
-// Elevation System - Google Material 3
-// ============================================
-
-.elevation-0 {
-  box-shadow: none;
-}
-
-.elevation-1 {
-  box-shadow: var(--shadow-1);
-}
-
-.elevation-2 {
-  box-shadow: var(--shadow-2);
-}
-
-.elevation-3 {
-  box-shadow: var(--shadow-3);
-}
-
-.elevation-4 {
-  box-shadow: var(--shadow-4);
-}
 
 // ============================================
 // Google-style Tables
@@ -835,92 +566,10 @@ textarea {
   }
 }
 
-// ============================================
-// Google-style Chips/Tags
-// ============================================
 
-.chip,
-.tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 12px;
-  border-radius: var(--radius-pill);
-  background: var(--bg-hover);
-  color: var(--text-primary);
-  font-size: 13px;
-  font-weight: 500;
-  transition: background-color var(--transition-fast);
-
-  &:hover {
-    background: var(--border-color);
-  }
-}
 
 // ============================================
-// Google-style Buttons
-// ============================================
-
-.google-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 0 24px;
-  height: 36px;
-  border-radius: var(--radius-pill);
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.25px;
-  cursor: pointer;
-  border: none;
-  transition: all var(--transition-base);
-  font-family: inherit;
-
-  &.primary {
-    background: var(--google-blue);
-    color: white;
-    box-shadow: var(--shadow-1);
-
-    &:hover {
-      background: var(--google-blue-hover);
-      box-shadow: var(--shadow-2);
-    }
-
-    &:active {
-      box-shadow: var(--shadow-1);
-    }
-  }
-
-  &.secondary {
-    background: var(--bg-primary);
-    color: var(--google-blue);
-    border: 1px solid var(--border-color);
-
-    &:hover {
-      background: var(--bg-hover);
-      border-color: var(--border-hover);
-    }
-  }
-
-  &.text {
-    background: transparent;
-    color: var(--google-blue);
-
-    &:hover {
-      background: var(--google-blue-lighter);
-    }
-  }
-
-  &:disabled {
-    opacity: 0.38;
-    cursor: not-allowed;
-    pointer-events: none;
-  }
-}
-
-// ============================================
-// Container
+// Container (keeping only used ones)
 // ============================================
 
 .container {
@@ -935,14 +584,8 @@ textarea {
   padding: 0 24px;
 }
 
-.container-sm {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 0 24px;
-}
-
 // ============================================
-// Google-style Surface
+// Google-style Surface (keeping only used)
 // ============================================
 
 .surface {
@@ -950,10 +593,4 @@ textarea {
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-1);
   border: 1px solid var(--divider);
-}
-
-.surface-elevated {
-  background: var(--bg-primary);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-2);
 }
